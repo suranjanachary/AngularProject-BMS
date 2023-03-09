@@ -1,0 +1,83 @@
+<h2>Customer List</h2>
+
+<div >
+    <button ngbDropdown class="nav-item dropdown " style=" border: none">
+        <a ngbDropdownToggle 
+       
+           class="nav-link dropdown-toggle btn btn-info   "
+           id="dropdown1"
+           data-toggle="dropdown"
+           aria-haspopup="tree"> Sort By </a>
+           
+           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown1" >
+              <a ngbDropdownItem  class="dropdown-item" value="accountNumber" (click)="getmeField('accountNumber')">Account Number</a>
+              <a ngbDropdownItem  class="dropdown-item" value="customerName" (click)="getmeField('customerName')">Name</a>
+              <a ngbDropdownItem  class="dropdown-item" value="customerId" (click)="getmeField('customerId')">Customer ID</a>
+              <a ngbDropdownItem  class="dropdown-item" value="customerPhone" (click)="getmeField('customerPhone')">Phone</a>
+              <a ngbDropdownItem  class="dropdown-item" value="customerAddress" (click)="getmeField('customerAddress')">Address</a>
+           </div>
+    </button>
+</div>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Account Number</th>
+            <th>Account Description</th>
+            <!-- <th>Account Balance</th> -->
+            <th>Customer Id</th>
+            <th>Phone</th>
+            <th>Email Id</th>
+            <th>Address</th>
+            <!-- <th>User Name</th>
+            <th>Password</th> -->
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{customer.customerName}}</td>
+            <td>{{customer.accountNumber}}</td>
+            <td>{{customer.accountDescription}}</td>
+            <!-- <td>{{customer.accountBalance}}</td> -->
+            <td>{{customer.customerId}}</td>
+            <td>{{customer.customerPhone}}</td>
+            <td>{{customer.customerEmail}}</td>
+            <td>{{customer.customerAddress}}</td>
+            <!-- <td>{{customer.customerUserName}}</td>
+            <td>{{customer.customerPassword}}</td> -->
+            <td style="display: flex; ">   
+                <button style="margin-right: 10px;" class="btn btn-primary" (click)="customerDetails(customer.customerId)">View</button>
+                <button style="margin-right: 10px;" class="btn btn-info" (click)="updateCustomer(customer.customerId)">Update</button>
+                <button style="margin-right: 10px;" class="btn btn-danger" (click)="deleteCustomer(customer.customerId)">Delete</button>
+            </td>
+           
+
+        </tr>
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo; Previous</span>
+        </a>
+    </li>
+    <!-- *ngFor="let pageNumber of [].constructor(state.appData.data.Page.totalPages)" -->
+      <li  class="page-item">
+        <a class="page-link" >
+            1
+        </a>
+    </li>
+      
+
+      <li class="page-item">
+        <a class="page-link" aria-label="Next">
+           <span aria-hidden="true"> Next &raquo;</span>
+        </a>
+    </li>
+    </ul>
+  </nav>
