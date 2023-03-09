@@ -6,24 +6,18 @@ import org.springframework.data.domain.Page;
 
 import com.suranjan.exception.CustomerException;
 import com.suranjan.model.Customer;
-import com.suranjan.model.CustomerPage;
-import com.suranjan.model.CustomerSearchCriteria;
 import com.suranjan.model.PaginationCriteria;
 
 
 public interface CustomerService {
 
-	Page<Customer> getUsers(String name, int page, int size);
-	 
 	public Customer insertCustomer(Customer customer) throws CustomerException;
 	
 	public Customer updateCustomer(Integer customerId, Customer customer) throws CustomerException;
 	
 	public Customer deleteCustomer(Integer customerId) throws CustomerException;
 	
-	public List<Customer> viewCustomer() throws CustomerException;
-	
-	public Page<Customer> getCustomers(CustomerPage customerPage, CustomerSearchCriteria customerSearchCriteria );
+	public List<Customer> viewCustomer(PaginationCriteria paginationCriteria) throws CustomerException;
 	
 	public Customer viewCustomer(Integer customerId) throws CustomerException;
 	

@@ -27,8 +27,7 @@ import com.suranjan.exception.CustomerException;
 import com.suranjan.exception.LoginException;
 import com.suranjan.model.AdminSignupData;
 import com.suranjan.model.Customer;
-import com.suranjan.model.CustomerPage;
-import com.suranjan.model.CustomerSearchCriteria;
+import com.suranjan.model.PaginationCriteria;
 import com.suranjan.service.AdminLoginService;
 import com.suranjan.service.AdminSignupService;
 import com.suranjan.service.CustomerService;
@@ -117,19 +116,11 @@ public class AdminController {
 	
 //	@CrossOrigin(origins = "http://localhost:8888")
 	@GetMapping("/all/customers")
-	public ResponseEntity< List<Customer>> getAllCustomerHandler () throws CustomerException{
+	public ResponseEntity< List<Customer>> getAllCustomerHandler (PaginationCriteria paginationCriteria) throws CustomerException{
 		
-		List<Customer> allCustomers =customerService.viewCustomer();
+		List<Customer> allCustomers =customerService.viewCustomer(paginationCriteria);
 		
 		return new ResponseEntity<List<Customer>>(allCustomers,HttpStatus.OK);
-	}
-	
-	@GetMapping("/get/customers")
-	
-	public ResponseEntity< Page<Customer>> getAllCustomerHandler2 (CustomerPage customerPage, CustomerSearchCriteria customerSearchCriteria ) throws CustomerException{
-		
-		
-		return new ResponseEntity<>(customerService.getCustomers(customerPage, customerSearchCriteria),HttpStatus.OK);
 	}
 	
 	@GetMapping("/customer/{id}")

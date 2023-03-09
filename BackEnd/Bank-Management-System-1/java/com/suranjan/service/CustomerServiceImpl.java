@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.suranjan.exception.CustomerException;
 import com.suranjan.model.Customer;
-import com.suranjan.model.CustomerPage;
-import com.suranjan.model.CustomerSearchCriteria;
 import com.suranjan.model.PaginationCriteria;
-import com.suranjan.repository.CustomerCriteriaRepository;
 import com.suranjan.repository.CustomerCustomDao;
 import com.suranjan.repository.CustomerDao;
 
@@ -24,21 +21,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerDao  customerDao;
 	
-//	 @Autowired
-//	private CustomerCustomDao  customerCustomDao;
-	
-	@Autowired
-	private CustomerCriteriaRepository customerCriteriaRepository;
-	
-	public CustomerServiceImpl(CustomerCriteriaRepository customerCriteriaRepository) {
-		this.customerCriteriaRepository=customerCriteriaRepository;
-	}
-	
-	@Override
-	public Page<Customer> getCustomers(CustomerPage customerPage, CustomerSearchCriteria customerSearchCriteria ){
-		
-		return customerCriteriaRepository.findWithFilters(customerPage, customerSearchCriteria);
-	}
+	 @Autowired
+	private CustomerCustomDao  customerCustomDao;
 	
 	@Override
 	public Customer insertCustomer(Customer customer) throws CustomerException {
@@ -88,11 +72,9 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> viewCustomer() throws CustomerException {
+	public List<Customer> viewCustomer(PaginationCriteria paginationCriteria) throws CustomerException {
 		
-		List<Customer>allCustomers= customerDao.findAll();
-		
-		return allCustomers;
+		return customerCustomDao.findAll(paginationCriteria);
 		
 	}
 
@@ -142,10 +124,5 @@ public class CustomerServiceImpl implements CustomerService {
 		Page<Customer>customers= customerDao.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(Sort.Direction.DESC,field)));
 		return customers;
 	}
-	
-//	@Override
-//    public Page<Customer> getUsers(String name, int page, int size) {
-//        log.info("Fetching users for page {} of size {}", page, size);
-//        return customerDao.findByNameContaining(name, of(page, size));
 
 }

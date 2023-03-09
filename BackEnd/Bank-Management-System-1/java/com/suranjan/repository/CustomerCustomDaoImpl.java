@@ -1,6 +1,5 @@
 package com.suranjan.repository;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,7 +11,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import com.suranjan.exception.CustomerException;
@@ -90,11 +88,5 @@ public class CustomerCustomDaoImpl implements CustomerCustomDao {
 
 	        return null ;
 	}
-
-//	@Override
-//	public Page<Customer> findByNameContaining(String name, Pageable pageable) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }

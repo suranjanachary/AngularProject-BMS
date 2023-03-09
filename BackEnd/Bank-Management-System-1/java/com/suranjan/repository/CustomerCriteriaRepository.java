@@ -1,6 +1,6 @@
 package com.suranjan.repository;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,10 +27,10 @@ public class CustomerCriteriaRepository {
 	private final EntityManager entityManager;
 	private final CriteriaBuilder criteriaBuilder;
 
-	public CustomerCriteriaRepository(EntityManager entityManager) {
+	public CustomerCriteriaRepository(EntityManager entityManager, CriteriaBuilder criteriaBuilder) {
 		super();
 		this.entityManager = entityManager;
-		this.criteriaBuilder = entityManager.getCriteriaBuilder();
+		this.criteriaBuilder = criteriaBuilder;
 	}
 
 	public Page<Customer> findWithFilters(CustomerPage customerPage, 
