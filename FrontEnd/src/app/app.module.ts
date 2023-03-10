@@ -11,7 +11,8 @@ import { UpdateCustomerComponent } from './update-customer/update-customer.compo
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent } from './header/header.component'
+import { HeaderComponent } from './header/header.component';
+import { PaginationComponent } from './pagination/pagination.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { HeaderComponent } from './header/header.component'
     UpdateCustomerComponent,
     CustomerDetailsComponent,
 
-    HeaderComponent
+    HeaderComponent,
+     PaginationComponent
   ],
   imports: [
     BrowserModule,

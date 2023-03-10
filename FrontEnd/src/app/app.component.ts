@@ -18,31 +18,13 @@ export class AppComponent implements OnInit {
 
 //pagination
 
-    usersState$: Observable<{ appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse }>;
-    responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
-    private currentPageSubject = new BehaviorSubject<number>(0);
-    currentPage$ = this.currentPageSubject.asObservable();
-
+    
   customers: Customer [];
 
   constructor(private customerService : CustomerService){}
 
   ngOnInit(): void {
-    // this.loadingService.loadingOn();
-    this.usersState$ = this.customerService.users$().pipe(
-      map((response: ApiResponse<Page>) => {
-        // this.loadingService.loadingOff();
-        this.responseSubject.next(response);
-        this.currentPageSubject.next(response.data.page.number);
-        console.log(response);
-        return ({ appState: 'APP_LOADED', appData: response });
-      }),
-      startWith({ appState: 'APP_LOADING' }),
-      catchError((error: HttpErrorResponse) =>{ 
-        // this.loadingService.loadingOff();
-        return of({ appState: 'APP_ERROR', error })}
-        )
-    )
+   
   }
   getmeField(sortField : string){
 

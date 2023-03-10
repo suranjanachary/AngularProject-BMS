@@ -1,6 +1,6 @@
 <h2>Customer List</h2>
 
-<div >
+<!-- <div >
     <button ngbDropdown class="nav-item dropdown " style=" border: none">
         <a ngbDropdownToggle 
        
@@ -17,7 +17,7 @@
               <a ngbDropdownItem  class="dropdown-item" value="customerAddress" (click)="getmeField('customerAddress')">Address</a>
            </div>
     </button>
-</div>
+</div> -->
 
 
 <table class="table table-striped">
@@ -59,6 +59,8 @@
     </tbody>
 </table>
 
+<!-- <app-pagination></app-pagination> -->
+
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
       <li class="page-item">
@@ -66,10 +68,10 @@
             <span aria-hidden="true">&laquo; Previous</span>
         </a>
     </li>
-    <!-- *ngFor="let pageNumber of [].constructor(state.appData.data.Page.totalPages)" -->
-      <li  class="page-item">
-        <a class="page-link" >
-            1
+   
+      <li *ngFor="let pageNumber of [].constructor(pageNumber); let i = index" class="page-item">
+        <a class="page-link"  >
+            {{i+1}}
         </a>
     </li>
       

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from './api-response';
 import { Customer } from './customer';
 import { Page } from './page';
+import { Pagination } from './pagination';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +41,10 @@ export class CustomerService {
 
   // Make call to the back end API to retrieve page of users
   
-  users$ = (name: string = '', page: number = 0, size: number = 10): Observable<ApiResponse<Page>> => 
-    this.httpClient.get<ApiResponse<Page>>(`${this.baseURL}/customers?name=${name}&page=${page}&size=${size}`);
+  getPaginationData(pageNumber: number = 0, pageSize: number = 2, name: string = 's', sortBy: string ='customerName', direction: boolean = true): Observable<Pagination>{
+
+   return  this.httpClient.get<Pagination>(`${this.baseURL}/pagination/${pageNumber}/${pageSize}/${name}/${sortBy}/${direction}`);
+
+  }
 
 }
