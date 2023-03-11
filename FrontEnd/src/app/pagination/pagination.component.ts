@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { CustomerService } from '../customer.service';
 import { Pagination } from '../pagination';
+import { PaginationDto } from '../paginationDto';
 
 @Component({
   selector: 'app-pagination',
@@ -13,16 +14,20 @@ export class PaginationComponent {
 
   
   pagination : Pagination = new Pagination();
+  paginationDto : PaginationDto = new PaginationDto();
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();
   constructor(public customerListComponent : CustomerListComponent
   ,public customerService : CustomerService) { }
   
     ngOnInit(): void {
-      
+      this.paginationDto.pageNumber = 0;
+      this.paginationDto.pageSize  = 5 ;
+      this.paginationDto.sortBy = "customerName";
+      this.paginationDto.direction = false;
        
       //this.pagination.totalPages= 10;
-      this.customerService.getPaginationData(0,8,"string","customertName",false).subscribe(data =>{
+      this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
       
           this.pagination = data;
           console.log(this.pagination);
@@ -30,7 +35,13 @@ export class PaginationComponent {
         })
      } 
      goToPage(name? : string , pageNumber : number = 0) {
-       this.customerService.getPaginationData(pageNumber,8,"string","customerName",false).subscribe(data =>{
+      this.paginationDto.pageNumber = pageNumber;
+      this.paginationDto.pageSize  =3 ;
+      this.paginationDto.sortBy = "customerName";
+      this.paginationDto.direction = false;
+       
+      //this.pagination.totalPages= 10;
+      this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
                 
               this.pagination = data;
               console.log(this.pagination);

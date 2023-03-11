@@ -16,15 +16,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Data
 public class Customer {
 	
 	
@@ -36,7 +30,6 @@ public class Customer {
 	
 	private String customerEmail;
 	
-	
 	private String customerPhone;
 
 	private String customerUserName;
@@ -44,7 +37,6 @@ public class Customer {
 	private String customerPassword;
 	
 	private String customerAddress;
-	
 	
 	private Integer accountNumber;
 	
@@ -57,10 +49,12 @@ public class Customer {
 
 	@OneToOne(cascade = CascadeType.ALL,mappedBy = "customer")
 	@JsonIgnore
+	@ToString.Exclude
 	private Account account;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "accountnumber")
 	@JsonIgnore
+	@ToString.Exclude
 	private List<Transaction> allTrasactions = new ArrayList<Transaction>();
 	
 	public Customer() {

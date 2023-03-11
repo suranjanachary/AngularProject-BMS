@@ -7,6 +7,7 @@ import { Content } from '../content';
 import { CustomerService } from '../customer.service';
 import { Page } from '../page';
 import { Pagination } from '../pagination'
+import { PaginationDto } from '../paginationDto';
 @Injectable()
 @Component({
   selector: 'app-customer-list',
@@ -15,62 +16,31 @@ import { Pagination } from '../pagination'
 })
 export class CustomerListComponent implements OnInit {
 
-  // usersState$: Observable<{ appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse }>;
-
-  //   responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
-  //   private currentPageSubject = new BehaviorSubject<number>(0);
-  //   currentPage$ = this.currentPageSubject.asObservable();
-
   field: string;
+  pageSize : number = 3;
   name: string;
   direction: boolean = false;
-  pagination: Pagination;
-  page: Page;
+  pagination: Pagination = new Pagination();
   customers: Content [] = [];
   pageNumber: number = 0;
+  paginationDto : PaginationDto = new PaginationDto();
 
+  private currentPageSubject = new BehaviorSubject<number>(0);
+  currentPage$ = this.currentPageSubject.asObservable();
 
   constructor(private customerService: CustomerService, private router: Router) {
 
   }
-  // getmeField(cust : Customer []){
-  //   this.customers = cust;
-
-  //    this.customerService.getSortingDropDown(sortby).subscribe( data => {
-  //      console.log(data);
-  //      this.customers=data;
-  //    })
-  // }
-  // getmeField(sortField: string) {
-
-  //   this.customerService.getSortingDropDown(sortField).subscribe(data => {
-  //     this.customers = [...data];
-  //     console.log(data);
-
-  //   })
-  // }
-
+  
   ngOnInit(): void {
-
-    this.getCustomers();
-    //  // this.loadingService.loadingOn();
-    //  this.usersState$ = this.customerService.getUsers().pipe(
-    //   map((response: ApiResponse<Page>) => {
-    //     // this.loadingService.loadingOff();
-    //     this.responseSubject.next(response);
-    //     this.currentPageSubject.next(response.data.page.number);
-    //     console.log(response);
-    //     return ({ appState: 'APP_LOADED', appData: response });
-    //   }),
-    //   startWith({ appState: 'APP_LOADING' }),
-    //   catchError((error: HttpErrorResponse) =>{ 
-    //     // this.loadingService.loadingOff();
-    //     return of({ appState: 'APP_ERROR', error })}
-    //     )
-    // ) 
-
-
-      this.customerService.getPaginationData().subscribe(data => {
+    this.paginationDto.pageNumber = 0;
+    this.paginationDto.pageSize  = this.pageSize;
+    this.paginationDto.sortBy = "customerName";
+    this.paginationDto.direction = false;
+     
+    //this.pagination.totalPages= 10;
+    this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
+   
       this.pagination = data;
      
       this.pageNumber = this.pagination.totalPages;
@@ -81,70 +51,84 @@ export class CustomerListComponent implements OnInit {
 
   }
 
-  private getCustomers() {
+  // private getCustomers() {
 
-    if (this.field == undefined) {
-      this.field = "customerName";
-    }
-    if (this.name == undefined) {
-        this.customerService.getPaginationData(this.pageNumber, 8, "string", this.field, this.direction).subscribe(data => {
-        this.pagination = data;
-        this.customers = this.pagination.content;
-        // console.log(this.pagination);
-      })
-    }
-    else {
-        this.customerService.getPaginationData(this.pageNumber, 8, this.name, this.field, this.direction).subscribe(data => {
-        this.pagination = data;
-        this.customers = this.pagination.content;
-        // console.log(this.pagination);
-      })
-    }
-  }
+    
+    
+  //     // this.pagintaiondto.pagenumber = this.pageNumber;
+  //     this.paginationDto.pageNumber = this.pageNumber;
+  //     this.paginationDto.pageSize  =3 ;
+  //     this.paginationDto.name = this.name;
+  //     this.paginationDto.sortBy = this.field;
+  //     this.paginationDto.direction = this.direction;
+       
+  //     //this.pagination.totalPages= 10;
+  //     this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
+  //       this.pagination = data;
+  //       this.customers = this.pagination.content;
+  //       // console.log(this.pagination);
+  //     })
+    
+  // }
   updateCustomers(customers : Content []){
     this.customers = customers;
   }
   filter() {
 
-    if (this.field == undefined) {
-        this.field = "productName";
-    }
-    if (this.name == undefined || this.name == "") {
-        this.customerService.getPaginationData(this.pageNumber, 8, "string", this.field, this.direction).subscribe(data => {
+      this.paginationDto.pageNumber = 0;
+      this.paginationDto.pageSize  = this.pageSize;
+      this.paginationDto.name = this.name;
+      console.log(this.paginationDto.name);
+      this.paginationDto.sortBy = "customerName";
+      this.paginationDto.direction = this.direction;
+       
+      //this.pagination.totalPages= 10;
+      this.customerService.getPaginationData(this.paginationDto).subscribe((data) =>{
+        
+        console.log(data);
+
         this.pagination = data;
-        this.customers = this.pagination.content;
-        // console.log(this.pagination);
+        this.customers = data.content;
+        console.log(this.customers);
+        // console.log("suranjan");
+        // console.log(this.name,this.pageNumber,this.field,this.direction);
       })
-    }
-    else {
-        this.customerService.getPaginationData(this.pageNumber, 8, this.name, this.field, this.direction).subscribe(data => {
-        this.pagination = data;
-        this.customers = this.pagination.content;
-        // console.log(this.pagination);
-      })
-    }
+    
   }
+
+  selectOrder(flag : boolean){
+  this.direction = flag;
+  this.sortByField();
+  }
+
+  selectSize(size : number){
+   this.pageSize= size;
+   this.sortByField();
+  
+  }
+
   sortByField() {
-    if (this.field == undefined || this.field == "") {
-       this.field = "customerName";
-    }
-    if (this.name == undefined) {
-        this.customerService.getPaginationData(this.pageNumber, 8, "string", this.field, this.direction).subscribe(data => {
+    this.paginationDto.pageNumber = 0;
+      this.paginationDto.pageSize  =this.pageSize ;
+
+      this.paginationDto.name = this.name;
+      this.paginationDto.sortBy = this.field;
+      this.paginationDto.direction = this.direction;
+      if(this.paginationDto.name == undefined){
+        this.paginationDto.name = "";
+      }
+       
+      //this.pagination.totalPages= 10;
+      this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
         this.pagination = data;
         this.customers = this.pagination.content;
-        // console.log(this.pagination);
+        console.log(this.pagination);
       })
-    }
-    else {
-        this.customerService.getPaginationData(this.pageNumber, 8, this.name, this.field, this.direction).subscribe(data => {
-        this.pagination = data;
-        this.customers = this.pagination.content;
-        // console.log(this.pagination);
-      })
-    }
+    
   }
-  sortBy(field: string) {
-    this.field = field;
+  getmeField(field: string) {
+   this.field = field;
+    
     this.sortByField();
   }
   order(flag: boolean) {
@@ -166,10 +150,32 @@ export class CustomerListComponent implements OnInit {
 
       this.customerService.deleteCustomerById(customerId).subscribe(data => {
       // console.log(data);
-      this.getCustomers();
+      //this.getCustomers();
     })
   }
   customerDetails(customerId: number) {
       this.router.navigate(['customer-details', customerId]);
   }
+
+  goToPage(name? : string , pageNumber? : number) {
+
+    this.paginationDto.pageNumber = pageNumber;
+    // this.pageNumber = pageNumber;
+    this.paginationDto.pageSize  = this.pageSize;
+    this.paginationDto.sortBy = "customerName";
+    this.paginationDto.direction = false;
+
+      this.customerService.getPaginationData(this.paginationDto).subscribe(data =>{
+        this.pagination = data;
+        console.log(this.pagination);
+        this.customers = data.content;
+        this.currentPageSubject.next(pageNumber);
+       
+        })
+    
+  }
+  goToNextOrPreviousPage(direction? : string,name? : string){
+    this.goToPage(name,direction === 'forward' ? this.currentPageSubject.value + 1 :this.currentPageSubject.value-1) ;
+  }
+
 }

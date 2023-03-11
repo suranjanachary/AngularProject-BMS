@@ -1,6 +1,6 @@
 package com.suranjan.repository;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Objects;
 
@@ -88,11 +88,10 @@ public class CustomerCriteriaRepository {
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if (Objects.nonNull(customerSearchCriteria.getCustomer())
-				&& Objects.nonNull(customerSearchCriteria.getCustomer().getCustomerName())) {
+		if (Objects.nonNull(customerSearchCriteria.getCustomerName())) {
 
 			predicates.add(criteriaBuilder.like(customerRoot.get("customerName"),
-					"%" + customerSearchCriteria.getCustomer().getCustomerName() + "%"));
+					"%" + customerSearchCriteria.getCustomerName() + "%"));
 		}
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

@@ -1,25 +1,73 @@
 <h2>Customer List</h2>
+<div class="nav navbar-dark" style="justify-content: space-between; padding: 2px;" >
+        <div style = "margin-top: 5px;">
+            <form #searchForm = "ngForm" (ngSubmit)="filter()" class = 'd-flex' role = 'search'>
+                <div style="display: flex;">
+                <input style = "width: 150px;" type = "text" [(ngModel)] = "name" name = "name" class = "form-control me-2" type="search" placeholder="Search Product" aria-label="Search">
+                <button class = "btn btn-primary" type = "submit" style=" margin-left: 20px;">Search</button>
+                </div>
+            </form>
+        </div>    
+<div class = "nav" style="justify-content : end ; background-color: transparent; "> 
+        <div >
+            <button ngbDropdown class="nav-item dropdown "  style=" border: none">
+                <a ngbDropdownToggle 
+            
+                class="nav-link dropdown-toggle btn btn-info"
+                id="dropdown1"
+                data-toggle="dropdown"
+                aria-haspopup="tree"> Sort By </a>
+                
+                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown1" >
+                    <a ngbDropdownItem  class="dropdown-item" value="accountNumber" (click)="getmeField('accountNumber')">Account Number</a>
+                    <a ngbDropdownItem  class="dropdown-item" value="customerName" (click)="getmeField('customerName')">Name</a>
+                    <a ngbDropdownItem  class="dropdown-item" value="customerId" (click)="getmeField('customerId')">Customer ID</a>
+                    <a ngbDropdownItem  class="dropdown-item" value="customerPhone" (click)="getmeField('customerPhone')">Phone</a>
+                    <a ngbDropdownItem  class="dropdown-item" value="customerAddress" (click)="getmeField('customerAddress')">Address</a>
+                </div>
+            </button>
+        </div>
+        <div>
+            <button ngbDropdown class="nav-item dropdown " style=" border: none">
+                <a ngbDropdownToggle 
+            
+                class="nav-link dropdown-toggle btn btn-info   "
+                id="dropdown1"
+                data-toggle="dropdown"
+                aria-haspopup="tree"> Order</a>
 
-<!-- <div >
-    <button ngbDropdown class="nav-item dropdown " style=" border: none">
-        <a ngbDropdownToggle 
-       
-           class="nav-link dropdown-toggle btn btn-info   "
-           id="dropdown1"
-           data-toggle="dropdown"
-           aria-haspopup="tree"> Sort By </a>
-           
-           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown1" >
-              <a ngbDropdownItem  class="dropdown-item" value="accountNumber" (click)="getmeField('accountNumber')">Account Number</a>
-              <a ngbDropdownItem  class="dropdown-item" value="customerName" (click)="getmeField('customerName')">Name</a>
-              <a ngbDropdownItem  class="dropdown-item" value="customerId" (click)="getmeField('customerId')">Customer ID</a>
-              <a ngbDropdownItem  class="dropdown-item" value="customerPhone" (click)="getmeField('customerPhone')">Phone</a>
-              <a ngbDropdownItem  class="dropdown-item" value="customerAddress" (click)="getmeField('customerAddress')">Address</a>
-           </div>
-    </button>
-</div> -->
+                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown1">
 
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectOrder(false)">Ascending</a>
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectOrder(true)">Descending</a>
 
+                </div>
+
+            </button>
+        </div>
+        <div>
+            <button ngbDropdown class="nav-item dropdown " style=" border: none">
+                <a ngbDropdownToggle 
+            
+                class="nav-link dropdown-toggle btn btn-info   "
+                id="dropdown1"
+                data-toggle="dropdown"
+                aria-haspopup="tree">Page Size</a>
+
+                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown1">
+
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectSize(2)">2</a>
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectSize(4)">4</a>
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectSize(6)">6</a>
+                    <a ngbDropdownItem class="dropdown-item" (click)="selectSize(8)">8</a>
+
+                </div>
+
+            </button>
+        </div>
+        </div>
+
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -61,25 +109,15 @@
 
 <!-- <app-pagination></app-pagination> -->
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-      <li class="page-item">
-        <a class="page-link" aria-label="Previous">
-            <span aria-hidden="true">&laquo; Previous</span>
-        </a>
-    </li>
-   
-      <li *ngFor="let pageNumber of [].constructor(pageNumber); let i = index" class="page-item">
-        <a class="page-link"  >
-            {{i+1}}
-        </a>
-    </li>
-      
 
-      <li class="page-item">
-        <a class="page-link" aria-label="Next">
-           <span aria-hidden="true"> Next &raquo;</span>
-        </a>
-    </li>
+<nav aria-label="Page navigation example" style="margin-left: 20%;">
+    <ul class="pagination" id="my-list">
+      <li class="page-item" style="cursor: pointer;" [ngClass]="0==(currentPage$ | async) ? 'disabled' : ''"><a class="page-link"(click)=" goToNextOrPreviousPage('backward')" >Previous</a></li>
+
+      <li class="page-item" *ngFor="let pageNumber of [].constructor(pagination.totalPages); let i = index;">
+        <a (click)="goToPage('',i)" class="page-link">{{i+1}}</a>
+      </li>
+
+      <li class="page-item"style="cursor: pointer;"  [ngClass]="(pagination.totalPages-1)==(currentPage$ | async) ? 'disabled' : ''"><a class="page-link"(click)=" goToNextOrPreviousPage('forward')" >Next</a></li>
     </ul>
   </nav>

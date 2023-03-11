@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suranjan.dto.AdminLoginDTO;
+import com.suranjan.dto.PaginationDto;
 import com.suranjan.exception.AdminException;
 import com.suranjan.exception.CustomerException;
 import com.suranjan.exception.LoginException;
@@ -131,24 +132,36 @@ public class AdminController {
 		return new ResponseEntity<List<Customer>>(allCustomers,HttpStatus.OK);
 	}
 	
-	@GetMapping("/pagination/{pageNumber}/{pageSize}/{name}/{sortBy}/{direction}")
-	public ResponseEntity<Page<Customer>> getcustomer(@PathVariable Integer pageNumber,@PathVariable Integer pageSize,
-			                                      @PathVariable String name, @PathVariable String sortBy,@PathVariable Boolean direction){
-		  
+	@PostMapping("/pagination/paginationdto")
+	public ResponseEntity<Page<Customer>> getcustomer(@RequestBody PaginationDto paginationDto){
+		
+		String name =  paginationDto.getName();
+	    String sortBy = paginationDto.getSortBy();
+	    Integer pageNumber = paginationDto.getPageNumber();
+	    Integer pageSize = paginationDto.getPageSize();
+	    boolean direction = paginationDto.isDirection();
+		
+		         
 		CustomerPage customerPage = new CustomerPage();
 		CustomerSearchCriteria customerSearchCritaria =  new CustomerSearchCriteria();
-	    customerPage.setPageNumber(pageNumber);
+		if(name != null)
+		customerSearchCritaria.setCustomerName(name);
+	    customerPage.setPageNumber( pageNumber);
 	    customerPage.setPageSize(pageSize);
+	    
 	    if(direction == true) {
 	    	customerPage.setSortDirection(Sort.Direction.DESC);
 	    }
-	    
+	    if(sortBy != null)
 	    customerPage.setSortBy(sortBy);
-	    customerSearchCritaria.getCustomer().setCustomerName(name);
-	    customerSearchCritaria.getCustomer().setAccountDescription(name);
-	    customerSearchCritaria.getCustomer().setCustomerAddress(name);
-	    customerSearchCritaria.getCustomer().setCustomerEmail(name);
+	    
+	    
+	    
 	   
+	     
+	    
+	   
+	    System.out.println(customerSearchCritaria);
 
 		return new ResponseEntity<>(customerServiceImpl.getCustomers(customerPage, customerSearchCritaria),HttpStatus.OK);
 	}

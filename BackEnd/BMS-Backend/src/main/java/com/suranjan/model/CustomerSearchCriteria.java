@@ -4,34 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CustomerSearchCriteria {
   
-	@Autowired
-	Customer customer = new Customer();
-	
-	public CustomerSearchCriteria() {
-		// TODO Auto-generated constructor stub
+	private String customerName;
+
+	public String getCustomerName() {
+		return customerName;
 	}
 
-	public CustomerSearchCriteria(Customer customer) {
-		super();
-		this.customer = customer;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	@Override
-	public String toString() {
-		return "CustomerSearchCriteria [customer=" + customer + "]";
-	}
-	
-	
-	
-
-	
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	} 
 	
 }

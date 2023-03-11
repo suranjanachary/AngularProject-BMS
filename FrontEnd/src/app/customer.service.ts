@@ -5,6 +5,7 @@ import { ApiResponse } from './api-response';
 import { Customer } from './customer';
 import { Page } from './page';
 import { Pagination } from './pagination';
+import { PaginationDto } from './paginationDto';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,9 +42,9 @@ export class CustomerService {
 
   // Make call to the back end API to retrieve page of users
   
-  getPaginationData(pageNumber: number = 0, pageSize: number = 2, name: string = 's', sortBy: string ='customerName', direction: boolean = true): Observable<Pagination>{
-
-   return  this.httpClient.get<Pagination>(`${this.baseURL}/pagination/${pageNumber}/${pageSize}/${name}/${sortBy}/${direction}`);
+  getPaginationData(pagintaionDto : PaginationDto ): Observable<Pagination>{
+      console.log("aman",pagintaionDto);
+       return this.httpClient.post<Pagination>(`${this.baseURL}/pagination/paginationdto`,pagintaionDto);
 
   }
 
