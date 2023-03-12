@@ -1,0 +1,5 @@
+package com.suranjan.security;
+
+public class CustomUserDetailService {
+
+}

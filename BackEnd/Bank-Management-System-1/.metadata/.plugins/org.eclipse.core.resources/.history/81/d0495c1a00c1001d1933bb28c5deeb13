@@ -1,0 +1,8 @@
+package com.suranjan.security;
+
+public class Snippet {
+	public static void main(String[] args) {
+		CustomUserDetailService
+	}
+}
+
